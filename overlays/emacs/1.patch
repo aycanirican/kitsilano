@@ -1,0 +1,25 @@
+diff -Naur emacs-26.2-orig/lisp/net/tramp-gvfs.el emacs-26.2/lisp/net/tramp-gvfs.el
+--- emacs-26.2-orig/lisp/net/tramp-gvfs.el	2019-01-07 17:26:06.000000000 +0300
++++ emacs-26.2/lisp/net/tramp-gvfs.el	2019-04-12 22:13:23.777989649 +0300
+@@ -162,7 +162,8 @@
+     (and (featurep 'dbusbind)
+ 	 (tramp-compat-funcall 'dbus-get-unique-name :system)
+ 	 (tramp-compat-funcall 'dbus-get-unique-name :session)
+-	 (or (tramp-compat-process-running-p "gvfs-fuse-daemon")
++	 (or (tramp-compat-process-running-p ".gvfs-fuse-wrapped")
++             (tramp-compat-process-running-p "gvfs-fuse-daemon")
+ 	     (tramp-compat-process-running-p "gvfsd-fuse"))))
+   "Non-nil when GVFS is available.")
+ 
+diff -Naur emacs-26.2-orig/src/Makefile.in emacs-26.2/src/Makefile.in
+--- emacs-26.2-orig/src/Makefile.in	2019-01-07 17:26:07.000000000 +0300
++++ emacs-26.2/src/Makefile.in	2019-04-12 22:11:40.436803193 +0300
+@@ -535,7 +535,7 @@
+ 	ln -f temacs$(EXEEXT) $@
+ else
+ 	unset EMACS_HEAP_EXEC; \
+-	LC_ALL=C $(RUN_TEMACS) -batch $(BUILD_DETAILS) -l loadup dump
++	env -i LC_ALL=C $(RUN_TEMACS) -batch $(BUILD_DETAILS) -l loadup dump
+   ifneq ($(PAXCTL_dumped),)
+ 	$(PAXCTL_dumped) $@
+   endif
