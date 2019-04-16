@@ -1,0 +1,37 @@
+pkgs: epkgs: with epkgs;
+[ counsel
+  counsel-projectile
+  pdf-tools
+  projectile
+  swiper
+  org
+  direnv
+  ace-jump-mode
+  ace-window
+  auctex
+  auto-yasnippet
+  avy
+  avy-zap
+  diminish
+  dockerfile-mode
+  editorconfig
+  feature-mode
+  go-mode
+  haskell-mode
+  htmlize
+  ivy
+  magit
+  markdown-mode
+  nix-mode
+  powerline
+  projectile
+  request
+  sass-mode
+  terraform-mode
+  undo-tree
+  use-package
+  web-mode
+  xterm-color
+  yaml-mode
+  yasnippet
+]

@@ -1,12 +1,24 @@
-{ pkgs ? ( import /home/fxr/nixpkgs {
-             overlays = [ (import overlays/emacs/emacs.nix) ]; })
+{ pkgsPath ? <nixpkgs>
 }:
 
-with pkgs;
 let
-  myEmacs          = import ./emacs  { inherit pkgs;         };
-  emacsDockerImage = import ./docker { inherit pkgs myEmacs; };
+  pkgs = import pkgsPath {
+    overlays = [ (import ./overlays/aa_emacs.nix) ];
+  };
+
 in rec {
-  tools.emacs  = myEmacs;
-  images.emacs = emacsDockerImage;
+
+  # envfunz
+  env = { 
+    emacs = pkgs.emacs26Env ((import ./conf/emacs.nix) pkgs); 
+  };
+
+  # ducker imagez
+  images = { 
+    emacs = (import ./docker { 
+      inherit pkgs; 
+      emacsEnv = env.emacs; 
+    }).emacsImage;
+  };
+
 }

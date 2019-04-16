@@ -1,0 +1,2 @@
+export HOST_CONF=$HOME/src/nix
+export NIX_PATH=host-config=$HOST_CONF/config/$HOSTNAME.nix:nixpkgs=$(realpath ./nixpkgs-channels):$(realpath ./nixpkgs-channels):configuration=/etc/nixos/configuration.nix

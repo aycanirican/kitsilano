@@ -1,33 +1,32 @@
-{ pkgs, myEmacs }:
-
-with pkgs;
+{ pkgs, emacsEnv }:
 
 let
-  version = "0.3";
-  baseImage = dockerTools.buildLayeredImage {
+  version = "0.4";
+  baseImage = pkgs.dockerTools.buildLayeredImage {
     name = "baseImage";
     tag = version;
-    contents = [ bashInteractive cacert busybox curl git ];
-    # maxLayers = 120;
+    contents = with pkgs; [ bashInteractive cacert busybox curl git ];
+    maxLayers = 120;
   };
 
 in
-{ emacsImage = dockerTools.buildImage {
+{ emacsImage = pkgs.dockerTools.buildImage {
     name = "emacs";
     tag  = version;
     fromImage = baseImage;
-    contents = [ myEmacs mu isync gnupg ];
+    contents = with pkgs; [ emacsEnv mu isync gnupg ];
     runAsRoot = ''
-      ${dockerTools.shadowSetup}
+      ${pkgs.dockerTools.shadowSetup}
       echo "tcp	6	TCP\nudp 17      UDP" >> /etc/protocol
       echo "hosts: files dns myhostname mymachines" > /etc/nsswitch.conf
-      groupadd -g 100 -r users && useradd -u 1000 --no-log-init -d /data -r -g users user
-      mkdir -p /data
-      chown user:users /data
+      mkdir /tmp && chmod 1777 /tmp
+      mkdir -p /home/user/data
+      groupadd -g 100 -r users && useradd -u 1001 --no-log-init -g users -m user
+      chown -R user:users /home/user
     '';
     config = {
-      Cmd = [ "${pkgs.gosu.bin}/bin/gosu" "user" "emacs" ];
-      WorkingDir = "/data";
+      Cmd = [ "${pkgs.gosu.bin}/bin/gosu" "user" "${emacsEnv}/bin/emacs" ];
+      WorkingDir = "/home/user/data";
       Volumes = { };
     };
   };
