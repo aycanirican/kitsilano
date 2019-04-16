@@ -4,12 +4,12 @@ Portable Development Environment for myself
 ## Using prebuilt docker images
 To build docker image and load it:
 ~~~
-docker load < $(nix-build -A images --argstr pkgsPath /home/fxr/nixpkgs)
+docker load < $(nix-build -A emacs.image --argstr pkgsPath /home/fxr/nixpkgs)
 ~~~
 
 To execute emacs environment:
 ~~~
-docker run -it --rm -v $PWD:/data emacs:latest
+docker run -it --rm -v $PWD:/home/user/data -v $(nix-build -A emacs.dotfile):/home/user/.emacs emacs:latest
 ~~~
 
 ## Using as an overlay

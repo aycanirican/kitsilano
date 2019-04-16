@@ -23,6 +23,7 @@ pkgs: epkgs: with epkgs;
   magit
   markdown-mode
   nix-mode
+  multiple-cursors
   powerline
   projectile
   request

@@ -5,6 +5,6 @@ rec {
 
   emacs26Env = myEpkgs: super.buildEnv {
     name = "emacs26Env";
-    paths = [ self.mu (myEmacsWithPackages myEpkgs) ];
+    paths = [ (myEmacsWithPackages myEpkgs) ];
   };
 }

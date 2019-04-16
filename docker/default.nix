@@ -1,12 +1,12 @@
 { pkgs, emacsEnv }:
 
 let
-  version = "0.4";
-  baseImage = pkgs.dockerTools.buildLayeredImage {
+  version = "latest";
+  baseImage = pkgs.dockerTools.buildImage {
     name = "baseImage";
     tag = version;
     contents = with pkgs; [ bashInteractive cacert busybox curl git ];
-    maxLayers = 120;
+    # maxLayers = 120;
   };
 
 in
