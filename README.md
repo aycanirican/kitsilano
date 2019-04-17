@@ -1,19 +1,23 @@
 # Kitsilano
 Portable Development Environment for myself
 
-## Using prebuilt docker images
-To build docker image and load it:
+## Quickly run raw EMACS (v26.2)
 ~~~
-docker load < $(nix-build -A emacs.image --argstr pkgsPath /home/fxr/nixpkgs)
+docker pull aycanirican/kitsilano
+docker run -it --rm -v $PWD:/home/user/data emacs:latest
 ~~~
 
-To execute emacs environment:
+## Run Kits
 ~~~
-docker run -it --rm -v $PWD:/home/user/data -v $(nix-build -A emacs.dotfile):/home/user/.emacs emacs:latest
+$(nix-build -A emacs.run [--argstr pkgsPath /path/to/nixpkgs])
+~~~
+
+## Faster invocation of EMACS with pretty customizations (this assumes image already loaded)
+~~~
+MODE=development $(nix-build -A emacs.run [--argstr pkgsPath /path/to/nixpkgs])
 ~~~
 
 ## Using as an overlay
 If you're using NixOS or Nix package manager, you can use this
 repository's overlays directory and get advantage of nix overlays.
 
-## Contributing
