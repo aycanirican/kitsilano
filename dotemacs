@@ -55,3 +55,7 @@
 ;;;; project scope
 (require 'projectile)
 (setq projectile-completion-system 'ivy)
+
+;;;; undo
+(global-undo-tree-mode 1)
+
