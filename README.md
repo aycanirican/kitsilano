@@ -2,6 +2,7 @@
 Portable Development Environment for myself
 
 ## Quickly run raw EMACS (v26.2)
+Registry: https://cloud.docker.com/repository/docker/aycanirican/kitsilano
 ~~~
 docker pull aycanirican/kitsilano
 docker run -it --rm -v $PWD:/home/user/data emacs:latest
