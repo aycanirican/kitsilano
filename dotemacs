@@ -24,29 +24,34 @@
 ;     ((looking-at "^\\* ")
 ;      (goto-char (point-max))))))
 
+;;;; AVY
 ;; a few changes to goto keys
 (require 'avy)
 (global-set-key (kbd "C-c C-j") 'avy-resume)
 (global-set-key (kbd "C-x ;"  ) 'avy-goto-char)
 (global-set-key (kbd "C-x '"  ) 'avy-goto-char-2)
 
+;;; MULTICURSOR
 ;; meta up down is working on macbook
 (require 'multiple-cursors)
 (global-set-key [(meta down)] 'mc/mark-next-like-this)
 (global-set-key [(meta up)]   'mc/mark-previous-like-this)
 
+;;;; AUTOCOMPLETE
 (progn
   (require 'ivy)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (global-set-key "\C-s" 'swiper)
-  )
+  ;; enable fuzzy match
+  (setq ivy-re-builders-alist
+      '((t . ivy--regex-fuzzy))))
 
-;; magit
+;;;; git ui
 (require 'magit)
 (setq magit-completing-read-function 'ivy-completing-read)
 
-;; projectile
+;;;; project scope
 (require 'projectile)
 (setq projectile-completion-system 'ivy)
