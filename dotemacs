@@ -59,3 +59,6 @@
 ;;;; undo
 (global-undo-tree-mode 1)
 
+;;;; use tmp for backup and autosave
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      backup-directory-alist         `((".*" . ,temporary-file-directory)))
