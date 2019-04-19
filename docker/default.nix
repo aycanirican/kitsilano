@@ -22,6 +22,7 @@ in
       echo "hosts: files dns myhostname mymachines" > /etc/nsswitch.conf
       mkdir /tmp && chmod 1777 /tmp
       mkdir -p /home/user/data
+      mkdir -p /home/user/.emacs.d/
       groupadd -g 100 -r users && useradd -u 1001 --no-log-init -g users -m user
       chown -R user:users /home/user
     '';

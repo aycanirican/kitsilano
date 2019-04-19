@@ -20,7 +20,7 @@ in rec {
     substitute ${./dotemacs} $out/dotemacs \
       --subst-var-by MU_PATH "${pkgs.mu}/share/emacs/site-lisp/mu4e";
   '';
-  
+
   emacs.run = pkgs.writeScript "runemacs" ''
     DCKR="${pkgs.docker}/bin/docker"
     if [[ "$MODE" != "development" ]]; then
@@ -32,6 +32,21 @@ in rec {
       -v $PWD:/home/user/data \
       -v "${emacs.dotfile}/dotemacs":/home/user/.emacs \
       -v $HOME/.gitconfig:/home/user/.gitconfig \
-      emacs:latest emacs -debug-init
+      kitsilano:latest # by default it runs emacs as a user
+  '';
+
+  emacs.publish = { image-id ? "0000", new-version ? "0" }: pkgs.writeScript "emacs-publish" ''
+    DCKR="${pkgs.docker}/bin/docker"
+    $DCKR images -q kitsilano | ${pkgs.gnugrep}/bin/grep ${image-id} 2> /dev/null
+    RES=$?
+    
+    if [[ $RES -eq 0 ]]; then
+      $DCKR tag ${image-id} aycanirican/kitsilano:${new-version}
+      $DCKR tag ${image-id} aycanirican/kitsilano:latest
+      $DCKR push aycanirican/kitsilano
+    else
+      echo "Image ID not found. Exiting..."
+      exit 1
+    fi
   '';
 }

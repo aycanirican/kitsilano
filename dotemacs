@@ -89,4 +89,4 @@ mime alternatives."
 (let ((customs "/home/user/.kits.el"))
   (if (file-exists-p customs)
       (load-file customs)
-      (message "Customization file not found: %s" customs))
+      (message "Customization file not found: %s" customs)))
