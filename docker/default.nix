@@ -12,7 +12,7 @@ let
 
 in
 { emacsImage = dockerTools.buildImage {
-    name = "emacs";
+    name = "kitsilano";
     tag  = version;
     fromImage = baseImage;
     contents = [ emacsEnv mu isync gnupg silver-searcher ];
