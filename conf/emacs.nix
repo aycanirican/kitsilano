@@ -5,6 +5,7 @@ pkgs: epkgs: with epkgs;
   projectile
   swiper
   org
+  org-mime
   direnv
   ace-jump-mode
   ace-window

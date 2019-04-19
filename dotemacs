@@ -1,43 +1,23 @@
 (package-initialize)
 
-;(defvar endless/init.org-message-depth 3
-;  "What depth of init.org headers to message at startup.")
-;
-;(with-temp-buffer
-;  (insert-file "~/.emacs.d/init.org")
-;  (goto-char (point-min))
-;  (search-forward "\n* init.el")
-;  (while (not (eobp))
-;    (forward-line 1)
-;    (cond
-;     ;; Report Headers
-;     ((looking-at
-;       (format "\\*\\{2,%s\\} +.*$"
-;               endless/init.org-message-depth))
-;      (message "%s" (match-string 0)))
-;     ;; Evaluate Code Blocks
-;     ((looking-at "^#\\+BEGIN_SRC +emacs-lisp *$")
-;      (let ((l (match-end 0)))
-;        (search-forward "\n#+END_SRC")
-;        (eval-region l (match-beginning 0))))
-;     ;; Finish on the next level-1 header
-;     ((looking-at "^\\* ")
-;      (goto-char (point-max))))))
+;; We list all the parameters externally given us by the build system
+;; here. 
+(setq mu-path "@MU_PATH@")
 
-;;;; AVY
-;; a few changes to goto keys
+;; AVY
+; a few changes to goto keys
 (require 'avy)
 (global-set-key (kbd "C-c C-j") 'avy-resume)
 (global-set-key (kbd "C-x ;"  ) 'avy-goto-char)
 (global-set-key (kbd "C-x '"  ) 'avy-goto-char-2)
 
-;;; MULTICURSOR
-;; meta up down is working on macbook
+;; MULTICURSOR
+; meta up down is working on macbook
 (require 'multiple-cursors)
 (global-set-key [(meta down)] 'mc/mark-next-like-this)
 (global-set-key [(meta up)]   'mc/mark-previous-like-this)
 
-;;;; AUTOCOMPLETE
+;; AUTOCOMPLETE
 (progn
   (require 'ivy)
   (ivy-mode 1)
@@ -48,17 +28,65 @@
   (setq ivy-re-builders-alist
       '((t . ivy--regex-fuzzy))))
 
-;;;; git ui
+;; git ui
 (require 'magit)
 (setq magit-completing-read-function 'ivy-completing-read)
 
-;;;; project scope
+;; project scope
 (require 'projectile)
 (setq projectile-completion-system 'ivy)
 
-;;;; undo
+;; undo
 (global-undo-tree-mode 1)
 
-;;;; use tmp for backup and autosave
+;; use tmp for backup and autosave
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       backup-directory-alist         `((".*" . ,temporary-file-directory)))
+
+;; ORG
+(require 'org)
+
+;; mu4e
+(add-to-list 'load-path mu-path)
+(require 'org-mime)
+(require 'mu4e)
+(require 'mu4e-contrib)
+(add-hook 'message-mode-hook 'flyspell-mode)
+(add-hook 'mu4e-compose-mode-hook
+          (lambda ()
+            (progn (auto-fill-mode -1)
+                          (set-visual-wrap-column '80)
+                   (flyspell-mode))))
+
+(defun org-mime-org-buffer-htmlize ()
+  "Create an email buffer containing the current org-mode file
+exported to html and encoded in both html and in org formats as
+mime alternatives."
+  (interactive)
+  (org-mime-send-buffer 'html)
+  (message-goto-to))
+
+(setq mu4e-headers-fields
+      '( (:human-date     .  15)    ;; alternatively, use :human-date
+         (:flags          .   6)
+         (:from           .  25)
+         (:thread-subject .  nil)))
+
+;; Dispatch by os
+(let ((is-mac (string-equal system-type "darwin")))
+    (when is-mac
+      (setq mac-allow-anti-aliasing t)
+      (setq delete-by-moving-to-trash t)
+      (setq trash-directory "~/.Trash")
+      (setq ns-pop-up-frames nil)
+      (setq ns-use-native-fullscreen nil)
+      (setq mac-option-modifier 'meta) ;; Bind meta to ALT
+      (setq mac-command-modifier 'super) ;; Bind apple/command to super if you want
+      (setq mac-function-modifier 'hyper) ;; Bind function key to hyper if you want
+      ))
+      
+;; Include user supplied customizations
+(let ((customs "/home/user/.kits.el"))
+  (if (file-exists-p customs)
+      (load-file customs)
+      (message "Customization file not found: %s" customs))
