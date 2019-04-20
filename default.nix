@@ -18,7 +18,7 @@ in rec {
   emacs.dotfile = pkgs.runCommand "gen_dotemacs" { preferLocalBuild = true; } ''
     mkdir $out
     substitute ${./dotemacs} $out/dotemacs \
-      --subst-var-by MU_PATH "${pkgs.mu}/share/emacs/site-lisp/mu4e";
+      --subst-var-by MU_PATH "${pkgs.mu}";
   '';
 
   emacs.run = pkgs.writeScript "runemacs" ''

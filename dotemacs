@@ -3,6 +3,7 @@
 ;; We list all the parameters externally given us by the build system
 ;; here. 
 (setq mu-path "@MU_PATH@")
+(setq mu4e-path (concat mu-path "/share/emacs/site-lisp/mu4e"))
 
 ;; AVY
 ; a few changes to goto keys
@@ -47,10 +48,13 @@
 (require 'org)
 
 ;; mu4e
-(add-to-list 'load-path mu-path)
+(add-to-list 'load-path mu4e-path)
 (require 'org-mime)
 (require 'mu4e)
 (require 'mu4e-contrib)
+
+(setq mu4e-mu-binary (concat mu-path "/bin/mu"))
+
 (add-hook 'message-mode-hook 'flyspell-mode)
 (add-hook 'mu4e-compose-mode-hook
           (lambda ()
