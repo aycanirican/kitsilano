@@ -90,7 +90,7 @@ mime alternatives."
       ))
       
 ;; Include user supplied customizations
-(let ((customs "/home/user/.kits.el"))
+(let ((customs (expand-file-name "~/.kits.el")))
   (if (file-exists-p customs)
       (load-file customs)
       (message "Customization file not found: %s" customs)))

@@ -16,8 +16,8 @@ in rec {
                 }).emacsImage;
 
   emacs.dotfile = pkgs.runCommand "gen_dotemacs" { preferLocalBuild = true; } ''
-    mkdir $out
-    substitute ${./dotemacs} $out/dotemacs \
+    mkdir -p $out/etc/
+    substitute ${./dotemacs} $out/etc/dotemacs \
       --subst-var-by MU_PATH "${pkgs.mu}";
   '';
 
@@ -30,7 +30,7 @@ in rec {
       -v $HOME/.kits.el:/home/user/.kits.el \
       -v $HOME/Maildir:/home/user/Maildir \
       -v $PWD:/home/user/data \
-      -v "${emacs.dotfile}/dotemacs":/home/user/.emacs \
+      -v "${emacs.dotfile}/etc/dotemacs":/home/user/.emacs \
       -v $HOME/.gitconfig:/home/user/.gitconfig \
       kitsilano:latest # by default it runs emacs as a user
   '';
