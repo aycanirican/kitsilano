@@ -1,10 +1,13 @@
-self: super:
+self: pkgs:
+with pkgs;
 
-rec {
-  myEmacsWithPackages = myEpkgs: super.emacsPackagesNg.emacsWithPackages myEpkgs;
-
-  emacs26Env = myEpkgs: super.buildEnv {
+{
+  emacs26Env = epkgs: buildEnv {
     name = "emacs26Env";
-    paths = [ (myEmacsWithPackages myEpkgs) ];
+    paths = [ (emacsPackagesNg.emacsWithPackages epkgs) ];
   };
+
+  gnupg = gnupg.overrideAttrs (attrs: {
+    doCheck = false;
+  });
 }

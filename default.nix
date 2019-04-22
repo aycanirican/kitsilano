@@ -18,6 +18,8 @@ in rec {
   emacs.dotfile = pkgs.runCommand "gen_dotemacs" { preferLocalBuild = true; } ''
     mkdir -p $out/etc/
     substitute ${./dotemacs} $out/etc/dotemacs \
+      --subst-var-by DIFF_PATH "${pkgs.diffutils}" \
+      --subst-var-by PATCH_PATH "${pkgs.patch}" \
       --subst-var-by MU_PATH "${pkgs.mu}";
   '';
 

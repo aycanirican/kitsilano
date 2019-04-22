@@ -6,7 +6,7 @@ let
   baseImage = dockerTools.buildImage {
     name = "baseImage";
     tag = version;
-    contents = [ bashInteractive glibcLocales cacert busybox curl git ];
+    contents = [ bashInteractive glibcLocales cacert coreutils curl git ];
     # maxLayers = 120;
   };
 
@@ -15,7 +15,7 @@ in
     name = "kitsilano";
     tag  = version;
     fromImage = baseImage;
-    contents = [ emacsEnv mu isync gnupg silver-searcher ];
+    contents = [ emacsEnv diffutils mu isync gnupg silver-searcher ];
     runAsRoot = ''
       ${dockerTools.shadowSetup}
       echo "tcp	6	TCP\nudp 17      UDP" >> /etc/protocol

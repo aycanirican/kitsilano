@@ -2,8 +2,15 @@
 
 ;; We list all the parameters externally given us by the build system
 ;; here. 
-(setq mu-path "@MU_PATH@")
+(setq diff-path "@DIFF_PATH@")   ; needed by ediff
+(setq patch-path "@PATCH_PATH@") ; needed by ediff
+(setq mu-path "@MU_PATH@")       ; needed by mu4e
 (setq mu4e-path (concat mu-path "/share/emacs/site-lisp/mu4e"))
+
+;; ediff
+(setq ediff-diff-program (concat diff-path "/bin/diff")
+      ediff-diff3-program (concat diff-path "/bin/diff3")
+      ediff-patch-program (concat patch-path "/bin/patch"))
 
 ;; AVY
 ; a few changes to goto keys
