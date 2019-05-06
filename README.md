@@ -1,20 +1,19 @@
 # Kitsilano
 Portable Development Environment for myself
 
-## For users
-### Quickly run raw EMACS (v26.2)
-Registry: https://cloud.docker.com/repository/docker/aycanirican/kitsilano
+## For practical users
+
+### Run Kits in NixOS
 ~~~
-docker pull aycanirican/kitsilano
-docker run -it --rm -v $PWD:/home/user/data emacs:latest
+$(nix-build -A emacs.run) -nw # -nw and rest of the args will be passed to emacs
 ~~~
 
-### Run Kits
+### Run Kits in a container
 ~~~
-$(nix-build -A emacs.run [--argstr pkgsPath /path/to/nixpkgs])
+$(nix-build -A emacs.run --argstr withContainer true [--argstr pkgsPath /home/user/nixpkgs])
 ~~~
 
-### Faster invocation of EMACS with pretty customizations (this assumes image already loaded)
+### Run prebuilt container image (skip loading generated image)
 ~~~
 MODE=development $(nix-build -A emacs.run [--argstr pkgsPath /path/to/nixpkgs])
 ~~~
@@ -23,10 +22,12 @@ MODE=development $(nix-build -A emacs.run [--argstr pkgsPath /path/to/nixpkgs])
 If you're using NixOS or Nix package manager, you can use this
 repository's overlays directory and get advantage of nix overlays.
 
-## For publishers
+TODO: write how to use overlays...
+
+## For developers
 
 ### Publishing new versions via docker hub
 
 ~~~
-$(nix-build -A emacs.publish --argstr pkgsPath ~/nixpkgs --argstr image-id 123456789 --argstr new-version)
+$(nix-build -A emacs.publish --argstr pkgsPath ~/nixpkgs --argstr image-id 123456789 --argstr new-version --argstr withContainer true)
 ~~~
