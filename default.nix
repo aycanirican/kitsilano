@@ -1,4 +1,5 @@
 { pkgsPath ? <nixpkgs>
+, withContainer ? false
 }:
 
 let
@@ -23,7 +24,7 @@ in rec {
       --subst-var-by MU_PATH "${pkgs.mu}";
   '';
 
-  emacs.run = pkgs.writeScript "runemacs" ''
+  emacs.runInContainer = pkgs.writeScript "runemacs" ''
     DCKR="${pkgs.docker}/bin/docker"
     if [[ "$MODE" != "development" ]]; then
       $DCKR load < ${emacs.image}
@@ -37,11 +38,17 @@ in rec {
       kitsilano:latest # by default it runs emacs as a user
   '';
 
+  emacs.runInCurrentProfile = pkgs.writeScript "runemacs" ''
+    exec ${emacs.package}/bin/emacs --eval "(load \"${emacs.dotfile}/etc/dotemacs\")" $@
+  '';
+
+  emacs.run = if withContainer then emacs.runInContainer else emacs.runInCurrentProfile;
+
   emacs.publish = { image-id ? "0000", new-version ? "0" }: pkgs.writeScript "emacs-publish" ''
     DCKR="${pkgs.docker}/bin/docker"
     $DCKR images -q kitsilano | ${pkgs.gnugrep}/bin/grep ${image-id} 2> /dev/null
     RES=$?
-    
+
     if [[ $RES -eq 0 ]]; then
       $DCKR tag ${image-id} aycanirican/kitsilano:${new-version}
       $DCKR tag ${image-id} aycanirican/kitsilano:latest

@@ -15,7 +15,7 @@ in
     name = "kitsilano";
     tag  = version;
     fromImage = baseImage;
-    contents = [ emacsEnv diffutils mu isync gnupg silver-searcher ];
+    contents = [ emacsEnv ];
     runAsRoot = ''
       ${dockerTools.shadowSetup}
       echo "tcp	6	TCP\nudp 17      UDP" >> /etc/protocol

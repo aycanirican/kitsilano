@@ -21,6 +21,7 @@ pkgs: epkgs: with epkgs;
   haskell-mode
   htmlize
   ivy
+  ivy-hydra
   magit
   markdown-mode
   nix-mode
@@ -33,7 +34,20 @@ pkgs: epkgs: with epkgs;
   undo-tree
   use-package
   web-mode
+  wgrep
   xterm-color
   yaml-mode
   yasnippet
-]
+] ++ (with pkgs; [ 
+  findutils 
+  git
+  direnv 
+  silver-searcher 
+  diffutils 
+  mu 
+  isync
+  gnupg 
+  zlib.dev
+  libpcap
+  curl.dev
+  ])
