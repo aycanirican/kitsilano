@@ -1,4 +1,9 @@
-{ pkgsPath ? <nixpkgs>
+{ pkgsPath ? (builtins.fetchGit {
+                name = "nixos-release-19.03";
+                url = https://github.com/nixos/nixpkgs-channels;
+                ref = "nixos-19.03";
+                rev = "f5493bf6145fc5b3b7415fe2dfe14d0310500ebb";
+              })
 , withContainer ? false
 }:
 

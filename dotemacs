@@ -33,9 +33,10 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (global-set-key "\C-s" 'swiper)
-  ;; enable fuzzy match
-  (setq ivy-re-builders-alist
-      '((t . ivy--regex-fuzzy))))
+  ;; ;; enable fuzzy match
+  ;; (setq ivy-re-builders-alist
+  ;;     '((t . ivy--regex-fuzzy)))
+  )
 
 ;; git ui
 (require 'magit)
@@ -102,3 +103,10 @@ mime alternatives."
   (if (file-exists-p customs)
       (load-file customs)
       (message "Customization file not found: %s" customs)))
+
+;; ace window for easy switching between windows
+(require 'ace-window)
+(global-set-key (kbd "M-o") 'ace-window)
+
+;; always show matching parens
+(show-paren-mode 1)

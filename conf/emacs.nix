@@ -1,35 +1,39 @@
 pkgs: epkgs: with epkgs;
-[ counsel
-  counsel-projectile
-  pdf-tools
-  projectile
-  swiper
-  org
-  org-mime
-  direnv
+[
   ace-jump-mode
   ace-window
   auctex
   auto-yasnippet
   avy
   avy-zap
+  counsel
+  counsel-projectile
   diminish
+  direnv
   dockerfile-mode
   editorconfig
   feature-mode
   go-mode
+  git-timemachine
   haskell-mode
+  hi2
+  dante
   htmlize
   ivy
   ivy-hydra
   magit
   markdown-mode
-  nix-mode
   multiple-cursors
+  nix-mode
+  org
+  org-mime
+  pdf-tools
   powerline
+  projectile
   projectile
   request
   sass-mode
+  swiper
   terraform-mode
   undo-tree
   use-package
