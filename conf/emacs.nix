@@ -8,16 +8,17 @@ pkgs: epkgs: with epkgs;
   avy-zap
   counsel
   counsel-projectile
+  dante
   diminish
   direnv
+  docker
   dockerfile-mode
   editorconfig
   feature-mode
-  go-mode
   git-timemachine
+  go-mode
   haskell-mode
   hi2
-  dante
   htmlize
   ivy
   ivy-hydra
@@ -43,15 +44,15 @@ pkgs: epkgs: with epkgs;
   yaml-mode
   yasnippet
 ] ++ (with pkgs; [ 
+  curl.dev
+  diffutils 
+  direnv 
   findutils 
   git
-  direnv 
-  silver-searcher 
-  diffutils 
-  mu 
-  isync
   gnupg 
-  zlib.dev
+  isync
   libpcap
-  curl.dev
+  mu 
+  silver-searcher 
+  zlib.dev
   ])
