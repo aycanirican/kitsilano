@@ -10,4 +10,7 @@ with pkgs;
   gnupg = gnupg.overrideAttrs (attrs: {
     doCheck = false;
   });
+  libpsl = libpsl.overrideAttrs (attrs: {
+    doCheck = false;
+  });
 }
