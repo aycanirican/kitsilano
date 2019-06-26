@@ -14,7 +14,10 @@ pkgs: epkgs: with epkgs;
   docker
   dockerfile-mode
   editorconfig
+  exec-path-from-shell
   feature-mode
+  flycheck
+  flycheck-haskell
   git-timemachine
   go-mode
   haskell-mode
@@ -24,6 +27,7 @@ pkgs: epkgs: with epkgs;
   ivy-hydra
   magit
   markdown-mode
+  mmm-mode
   multiple-cursors
   nix-mode
   org
