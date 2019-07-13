@@ -6,6 +6,8 @@
 (setq patch-path "@PATCH_PATH@") ; needed by ediff
 (setq mu-path "@MU_PATH@")       ; needed by mu4e
 (setq mu4e-path (concat mu-path "/share/emacs/site-lisp/mu4e"))
+(setq ripgrep-path "@RG_PATH@")  ; used by counsel-rg-base-command
+
 
 ;; ediff
 (setq ediff-diff-program (concat diff-path "/bin/diff")
@@ -33,12 +35,12 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (global-set-key "\C-s" 'swiper)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-c k") 'counsel-rg)
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   ;; ;; enable fuzzy match
   ;; (setq ivy-re-builders-alist
   ;;     '((t . ivy--regex-fuzzy)))
-  )
+  (setq counsel-rg-base-command (concat ripgrep-path "/bin/rg -S --no-heading --line-number --color never %s .")))
 
 ;; git ui
 (require 'magit)

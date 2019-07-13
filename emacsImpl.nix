@@ -5,7 +5,8 @@ let
       substitute ${./dotemacs} $out/etc/dotemacs \
         --subst-var-by DIFF_PATH "${pkgs.diffutils}" \
         --subst-var-by PATCH_PATH "${pkgs.patch}" \
-        --subst-var-by MU_PATH "${pkgs.mu}";
+        --subst-var-by MU_PATH "${pkgs.mu}" \
+        --subst-var-by RG_PATH "${pkgs.ripgrep}"
     '';
     myEmacs = pkgs.emacs26Env ((import ./conf/emacs.nix) pkgs);
     dockerImages = import ./docker { inherit pkgs; };
