@@ -56,7 +56,8 @@ pkgs: epkgs: with epkgs;
   gnupg 
   isync
   libpcap
-  mu 
+  mu
+  ripgrep
   silver-searcher 
   zlib.dev
   ])
