@@ -19,7 +19,9 @@ pkgs: epkgs: with epkgs;
   flycheck
   flycheck-haskell
   git-timemachine
+  go-autocomplete
   go-mode
+  go-rename
   haskell-mode
   hi2
   htmlize
@@ -37,6 +39,7 @@ pkgs: epkgs: with epkgs;
   projectile
   projectile
   request
+  rjsx-mode
   sass-mode
   swiper
   terraform-mode
