@@ -1,10 +1,10 @@
-{ pkgs, isContainer }:
+{ pkgs, isContainer, compiler ? "ghc865" }:
 let
-    myHaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [aeson text aeson-pretty]);
+    myHaskell = pkgs.haskell.packages.${compiler}.ghcWithPackages (p: with p; [aeson text aeson-pretty]);
     dockerImages = import ./docker { inherit pkgs; };
     
     runInContainer = "${myHaskell}/bin/ghci";
-    runInCurrentProfile = "exec ${myHaskell}/bin/ghci"
+    runInCurrentProfile = "exec ${myHaskell}/bin/ghci";
 in
 
 rec {

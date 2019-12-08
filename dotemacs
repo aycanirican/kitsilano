@@ -24,8 +24,14 @@
 ;; MULTICURSOR
 ; meta up down is working on macbook
 (require 'multiple-cursors)
-(global-set-key [(meta down)] 'mc/mark-next-like-this)
-(global-set-key [(meta up)]   'mc/mark-previous-like-this)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+
+(with-eval-after-load 'multiple-cursors-core
+  (define-key mc/keymap (kbd "M-T") 'mc/reverse-regions)
+  (define-key mc/keymap (kbd "C-,") 'mc/unmark-next-like-this)
+  (define-key mc/keymap (kbd "C-.") 'mc/skip-to-next-like-this))
+
 
 ;; AUTOCOMPLETE
 (progn
