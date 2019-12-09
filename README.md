@@ -10,7 +10,7 @@ $(nix-build -A emacs.run) -nw # -nw and rest of the args will be passed to emacs
 
 ### Run Kits in a container
 ~~~
-$(nix-build -A emacs.run --argstr withContainer true [--argstr pkgsPath /home/user/nixpkgs])
+$(nix-build -A emacs.run --argstr withContainer true [--argstr pkgsPath ~/nixpkgs])
 ~~~
 
 ### Run prebuilt container image (skip loading generated image)
