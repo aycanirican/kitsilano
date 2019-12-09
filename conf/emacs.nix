@@ -9,6 +9,7 @@ pkgs: epkgs: with epkgs;
   counsel
   counsel-projectile
   dante
+  dhall-mode
   diminish
   direnv
   docker
@@ -22,6 +23,7 @@ pkgs: epkgs: with epkgs;
   go-mode
   haskell-mode
   hi2
+  hindent
   htmlize
   ivy
   ivy-hydra

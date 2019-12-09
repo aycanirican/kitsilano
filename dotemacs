@@ -5,6 +5,7 @@
 (setq diff-path "@DIFF_PATH@")   ; needed by ediff
 (setq patch-path "@PATCH_PATH@") ; needed by ediff
 (setq mu-path "@MU_PATH@")       ; needed by mu4e
+(setq dhall-path "@DHALL_PATH@") ; needed by emacs dhall-mode
 (setq mu4e-path (concat mu-path "/share/emacs/site-lisp/mu4e"))
 (setq ripgrep-path "@RG_PATH@")  ; used by counsel-rg-base-command
 
@@ -12,7 +13,8 @@
 ;; ediff
 (setq ediff-diff-program (concat diff-path "/bin/diff")
       ediff-diff3-program (concat diff-path "/bin/diff3")
-      ediff-patch-program (concat patch-path "/bin/patch"))
+      ediff-patch-program (concat patch-path "/bin/patch")
+      dhall-command (concat dhall-path "/bin/dhall"))
 
 ;; AVY
 ; a few changes to goto keys
