@@ -8,7 +8,10 @@ let
     ihaskell = import "${ihaskellSrc}/release.nix" {
       nixpkgs = pkgs;
       compiler = "ghc865";
-      packages = self: with self; [ ihaskell-blaze ihaskell-charts ];
+      packages = self: with self; [ 
+        ihaskell-aeson ihaskell-juicypixels ihaskell-blaze ihaskell-diagrams
+        ihaskell-gnuplot
+      ];
     };
 
     dockerImages        = import ./docker { inherit pkgs; };
