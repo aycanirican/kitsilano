@@ -14,7 +14,7 @@ let
       ];
     };
 
-    runInContainer      = "${ihaskell}/bin/ihaskell-notebook --ip 127.0.0.1";
+    runInContainer      = "${ihaskell}/bin/ihaskell-notebook --ip 0.0.0.0";
     runInCurrentProfile = "exec ${ihaskell}/bin/ihaskell-notebook --ip 127.0.0.1";
 in
 
