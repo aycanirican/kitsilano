@@ -47,8 +47,8 @@ let
     dockerImages = import ./docker { inherit pkgs; };
     
     myHaskell           = pkgs.haskell.packages.${compiler}.ghcWithPackages myHaskellPackages;
-    runInContainer      = "${myHaskell}/bin/ghci";
-    runInCurrentProfile = "exec ${myHaskell}/bin/ghci";
+    runInContainer      = "${myHaskell}/bin/ghc";
+    runInCurrentProfile = "exec ${myHaskell}/bin/ghc $@";
 in
 
 rec {
