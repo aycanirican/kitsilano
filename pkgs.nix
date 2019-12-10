@@ -5,7 +5,8 @@ import nixpkgs {
   config = {
     
     allowUnfree = true;
-    
+    allowBroken = true;
+
     packageOverrides =
       super: let self = super.pkgs; in {
                    # foo = super.foo;
