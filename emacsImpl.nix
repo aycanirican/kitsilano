@@ -1,4 +1,4 @@
-{ pkgs, isContainer }:
+{ pkgs, isContainer, dockerImages }:
 let
     dotfile = pkgs.runCommand "gen_dotemacs" { preferLocalBuild = true; } ''
       mkdir -p $out/etc/
@@ -10,7 +10,6 @@ let
         --subst-var-by RG_PATH "${pkgs.ripgrep}"
     '';
     myEmacs = pkgs.emacs26Env ((import ./conf/emacs.nix) pkgs);
-    dockerImages = import ./docker { inherit pkgs; };
     runInContainer = ''
       ${myEmacs}/bin/emacs
     '';
@@ -20,7 +19,7 @@ let
 in
 
 rec {
-  name = "kitsilano";
+  name = "emacs";
   image = dockerImages.emacs run;
   run = pkgs.writeScript "run-emacs" (if isContainer
                                        then runInContainer

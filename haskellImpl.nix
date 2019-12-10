@@ -1,5 +1,6 @@
 { pkgs
 , isContainer
+, dockerImages
 , compiler ? "ghc865"
   # takes packagelist, returns sub-list of packages
   # using:
@@ -44,8 +45,6 @@
 }:
 
 let
-    dockerImages = import ./docker { inherit pkgs; };
-    
     myHaskell           = pkgs.haskell.packages.${compiler}.ghcWithPackages myHaskellPackages;
     runInContainer      = "${myHaskell}/bin/ghc";
     runInCurrentProfile = "exec ${myHaskell}/bin/ghc $@";

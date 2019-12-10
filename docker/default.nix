@@ -5,7 +5,7 @@ with pkgs;
 let
   version = "latest";
   
-  baseImage = dockerTools.buildImage {
+  baseImage = dockerTools.buildLayeredImage {
     name = "baseImage";
     tag = version;
     contents = [ bashInteractive glibcLocales cacert coreutils curl git ];
@@ -49,8 +49,8 @@ let
   };
 
 in {
-  ihaskell  = run: commonImage "ihaskell"  run;
-  haskell   = run: commonImage "haskell"   run;
-  emacs     = run: commonImage "kitsilano" run;
-  selenium  = run: commonImage "selenium"  run;
+  ihaskell  = run: commonImage "ihaskell" run;
+  haskell   = run: commonImage "haskell"  run;
+  emacs     = run: commonImage "emacs"    run;
+  selenium  = run: commonImage "selenium" run;
 }

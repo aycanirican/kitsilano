@@ -1,7 +1,10 @@
-{ pkgs, isContainer }:
+{ pkgs
+, isContainer
+, dockerImages 
+}:
+
 let
     bin = "${pkgs.selenium-server-standalone}/bin/selenium-server";
-    dockerImages = import ./docker { inherit pkgs; };
     runInContainer = ''
       ${bin}
     '';

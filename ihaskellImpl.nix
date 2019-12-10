@@ -1,4 +1,4 @@
-{ pkgs, isContainer }:
+{ pkgs, isContainer, dockerImages }:
 let
     ihaskellSrc = builtins.fetchTarball {
       url = "https://github.com/gibiansky/IHaskell/tarball/a442c0b6d4cf1fb17eaa3bf2827f04b21ad334bf";
@@ -14,7 +14,6 @@ let
       ];
     };
 
-    dockerImages        = import ./docker { inherit pkgs; };
     runInContainer      = "${ihaskell}/bin/ihaskell-notebook --ip 127.0.0.1";
     runInCurrentProfile = "exec ${ihaskell}/bin/ihaskell-notebook --ip 127.0.0.1";
 in
