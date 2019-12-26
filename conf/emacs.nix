@@ -39,7 +39,6 @@ pkgs: epkgs: with epkgs;
   pdf-tools
   powerline
   projectile
-  projectile
   request
   rjsx-mode
   sass-mode

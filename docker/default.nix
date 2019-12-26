@@ -8,15 +8,15 @@ let
   baseImage = dockerTools.buildLayeredImage {
     name = "baseImage";
     tag = version;
-    contents = [ bashInteractive glibcLocales cacert coreutils curl git ];
+    contents = [ bash glibcLocales cacert coreutils curl git ];
   };
   
   myEmacs = pkgs.emacs26Env ((import ../conf/emacs.nix) pkgs);
   
-  commonImage = name: run: dockerTools.buildImage {
-    diskSize = 8192;
+  commonImage = name: entrypoint: paths: dockerTools.buildImage {
     inherit name;
-    tag  = version;
+    diskSize  = 6000;
+    tag       = version;
     fromImage = baseImage;
     runAsRoot = ''
       ${dockerTools.shadowSetup}
@@ -40,17 +40,45 @@ let
       echo "hosts: files dns myhostname mymachines" > /etc/nsswitch.conf
     '';
     config = {
-      Cmd = [ "${gosu.bin}/bin/gosu" "user" "/bin/sh" "-c" "${run}" ];
+      Cmd = [ "${gosu.bin}/bin/gosu" "user" "/bin/sh" "-c" "${entrypoint}" ];
       Env = [ "LANG=en_US.UTF-8"
-              "LOCALE_ARCHIVE=${glibcLocales}/lib/locale/locale-archive" ];
+              "LOCALE_ARCHIVE=${glibcLocales}/lib/locale/locale-archive"
+              "PATH=${paths}:$PATH"
+            ];
       WorkingDir = "/home/user/data";
       Volumes = { };
     };
   };
 
+  publish = { name, image, constants }: pkgs.writeScript "${name}-publish" ''
+    set -Eeo pipefail
+    DCKR="${pkgs.docker}/bin/docker"
+    PACKAGE="${name}"
+    VERSION="$1"
+
+    if [[ -z "$VERSION" ]]; then
+      echo "Usage: $0 <version>"
+      exit 1
+    fi
+
+    echo "Building docker image for $PACKAGE"
+    docker load < ${image}
+    IMAGE_ID=$(docker image ls $PACKAGE:latest --format '{{.ID}}')
+    echo "Loaded image id : $IMAGE_ID"
+
+    $DCKR tag $IMAGE_ID ${constants.dockerAccount}/$PACKAGE:$VERSION
+    $DCKR tag $IMAGE_ID ${constants.dockerAccount}/$PACKAGE:latest
+    $DCKR push          ${constants.dockerAccount}/$PACKAGE
+
+    echo "Released new version of $PACKAGE-$VERSION"
+    echo "Run it: docker run -it --rm ${constants.dockerAccount}/$PACKAGE:$VERSION"
+  '';
+
 in {
-  ihaskell  = run: commonImage "ihaskell" run;
-  haskell   = run: commonImage "haskell"  run;
-  emacs     = run: commonImage "emacs"    run;
-  selenium  = run: commonImage "selenium" run;
+  inherit publish;
+  
+  ihaskell  = { entrypoint, paths }: commonImage "ihaskell" entrypoint paths;
+  haskell   = { entrypoint, paths }: commonImage "haskell"  entrypoint paths;
+  emacs     = { entrypoint, paths }: commonImage "emacs"    entrypoint paths;
+  selenium  = { entrypoint, paths }: commonImage "selenium" entrypoint paths;
 }

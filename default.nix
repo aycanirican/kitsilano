@@ -1,14 +1,14 @@
 { pkgsPath ? builtins.fetchTarball (import ./nixpkgs.nix)
-, isContainer ? false
-, system ? builtins.currentSystem
+, system   ? builtins.currentSystem
 }:
 
 let
   pkgs         = import ./pkgs.nix { nixpkgs = pkgsPath; };
   dockerImages = import ./docker { inherit pkgs; };
+  constants    = { dockerAccount = "triloxy"; };
 in { 
-  ihaskell = import ./ihaskellImpl.nix { inherit pkgs dockerImages isContainer; };
-  haskell  = import ./haskellImpl.nix  { inherit pkgs dockerImages isContainer; };
-  emacs    = import ./emacsImpl.nix    { inherit pkgs dockerImages isContainer; };
-  selenium = import ./seleniumImpl.nix { inherit pkgs dockerImages isContainer; };
+  ihaskell = import ./ihaskellImpl.nix { inherit pkgs dockerImages constants; };
+  haskell  = import ./haskellImpl.nix  { inherit pkgs dockerImages constants; };
+  emacs    = import ./emacsImpl.nix    { inherit pkgs dockerImages constants; };
+  selenium = import ./seleniumImpl.nix { inherit pkgs dockerImages constants; };
 }

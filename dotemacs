@@ -69,7 +69,7 @@
 
   ;; ORG
   (require 'org)
-
+  (setq org-export-backends '(ascii html icalendar latex md))
   ;; mu4e
   (add-to-list 'load-path mu4e-path)
   (require 'org-mime)
