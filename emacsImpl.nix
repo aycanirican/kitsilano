@@ -16,6 +16,8 @@ let
     myEmacs = pkgs.emacs26Env ((import ./conf/emacs.nix) pkgs);
     runInContainer = "${myEmacs}/bin/emacs";
     runInCurrentProfile = ''
+      PATH="$PATH:${pkgs.mu}/bin:${pkgs.dhall}/bin:${pkgs.ripgrep}/bin:${pkgs.lorri}/bin"
+      lorri daemon &
       exec ${myEmacs}/bin/emacs --eval "(load \"${dotfile}/etc/dotemacs\")" $@
     '';
 in

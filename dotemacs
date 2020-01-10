@@ -13,13 +13,26 @@
 
 
   ;; ediff
-  (setq ediff-diff-program (concat diff-path "/bin/diff")
-	ediff-diff3-program (concat diff-path "/bin/diff3")
+  (setq ediff-diff-program  (concat diff-path  "/bin/diff")
+	ediff-diff3-program (concat diff-path  "/bin/diff3")
 	ediff-patch-program (concat patch-path "/bin/patch")
-	dhall-command (concat dhall-path "/bin/dhall"))
+	dhall-command       (concat dhall-path "/bin/dhall"))
+
+  ;; nix mode is essential for our community
+  (use-package nix-mode
+    :mode ("\\.nix\\'" "\\.nix.in\\'"))
+  (use-package nix-drv-mode
+    :ensure nix-mode
+    :mode "\\.drv\\'")
+  (use-package nix-shell
+    :ensure nix-mode
+    :commands (nix-shell-unpack nix-shell-configure nix-shell-build))
+  (use-package nix-repl
+    :ensure nix-mode
+    :commands (nix-repl))
 
   ;; AVY
-					; a few changes to goto keys
+  ;; a few changes to goto keys
   (require 'avy)
   (global-set-key (kbd "C-c C-j") 'avy-resume)
   (global-set-key (kbd "C-x ;"  ) 'avy-goto-char)

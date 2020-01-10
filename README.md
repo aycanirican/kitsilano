@@ -16,7 +16,7 @@ as simple as possible.
 
 There are two possible ways to execute each tool. 
 
-  - NixOS: Run them in your current profile
+  - NixOS: Run them in your current profile (optional: use cachix)
   - Docker: Build a docker image or use pre-built images
 
 If you're using NixOS, you can execute tools by simply Abuilding it
@@ -25,21 +25,27 @@ build a docker image and use your own docker server.
 
 ### Run In in NixOS
 ~~~
-# Invoke Emacs with No GUI argument
+# Run ghc interpreter
+$(nix-build -A haskell.run) --interactive
+
+# Run Emacs with arguments you like:
 $(nix-build -A emacs.run) -nw
 
-# Invoke ihaskell jupyter notebook
+# Run ihaskell jupyter notebook which listens on 8888
 $(nix-build -A ihaskell.run)
-
 ~~~
 
-### Run in a container
+### Execute in docker container
 ~~~
+# GHCi with most popular packages included
+$(nix-build -A haskell.runContainer) --interactive
+
+#ihaskell
+$(nix-build -A ihaskell.runContainer)
+
 # emacs
 $(nix-build -A emacs.run --argstr withContainer true)
 
-#ihaskell
-$(nix-build -A ihaskell.run --argstr withContainer true)
 ~~~
 
 ### Run prebuilt container image (skip loading generated image)
