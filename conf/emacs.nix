@@ -26,6 +26,7 @@ pkgs: epkgs: with epkgs;
   haskell-mode
   hi2
   hindent
+  hledger-mode
   htmlize
   ivy
   ivy-hydra
