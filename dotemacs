@@ -1,7 +1,10 @@
 (let ((gc-cons-threshold 1000000)) ; delay gc
   
   (package-initialize)
-
+  
+  (tool-bar-mode -1) ;; hide toolbar
+  (menu-bar-mode -1) ;; hide menubar
+  
   ;; We list all the parameters externally given us by the build system
   ;; here. 
   (setq diff-path "@DIFF_PATH@")   ; needed by ediff
@@ -10,7 +13,6 @@
   (setq dhall-path "@DHALL_PATH@") ; needed by emacs dhall-mode
   (setq mu4e-path (concat mu-path "/share/emacs/site-lisp/mu4e"))
   (setq ripgrep-path "@RG_PATH@")  ; used by counsel-rg-base-command
-
 
   ;; ediff
   (setq ediff-diff-program  (concat diff-path  "/bin/diff")
@@ -72,7 +74,10 @@
   ;; project scope
   (require 'projectile)
   (setq projectile-completion-system 'ivy)
-
+  
+  ;; company mode
+  (require 'company)
+  
   ;; undo
   (global-undo-tree-mode 1)
 
@@ -137,5 +142,13 @@ mime alternatives."
 
   ;; always show matching parens
   (show-paren-mode 1)
+
+  ;; hledger
+  (require 'hledger-mode)
+  
+  ;; company
+  
+  (add-to-list 'company-backends 'hledger-company)
+  (add-to-list 'company-backends 'company-ghc)
 
 )
