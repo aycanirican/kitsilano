@@ -145,9 +145,12 @@ mime alternatives."
 
   ;; hledger
   (require 'hledger-mode)
+  (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+  ;; Personal Accounting
+  (global-set-key (kbd "C-c e") 'hledger-jentry)
+  (global-set-key (kbd "C-c j") 'hledger-run-command)
   
   ;; company
-  
   (add-to-list 'company-backends 'hledger-company)
   (add-to-list 'company-backends 'company-ghc)
 
