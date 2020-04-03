@@ -14,12 +14,11 @@ let
         --subst-var-by RG_PATH      "${pkgs.ripgrep}" \
         --subst-var-by HLEDGER_PATH "${pkgs.hledger}"
     '';
-    pathRest = with pkgs; "${mu}/bin:${dhall}/bin:${ripgrep}/bin:${lorri}/bin:${hledger}/bin:${hledger-ui}/bin:${hledger-web}/bin";
+    pathRest = with pkgs; "${mu}/bin:${dhall}/bin:${ripgrep}/bin:${hledger}/bin:${hledger-ui}/bin:${hledger-web}/bin";
     myEmacs = pkgs.emacs26Env ((import ./conf/emacs.nix) pkgs);
     runInContainer = "${myEmacs}/bin/emacs";
     runInCurrentProfile = ''
       PATH="$PATH:${pathRest}"
-      lorri daemon &
       exec ${myEmacs}/bin/emacs --eval "(load \"${dotfile}/etc/dotemacs\")" $@
     '';
 in

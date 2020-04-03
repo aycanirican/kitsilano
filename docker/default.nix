@@ -31,9 +31,9 @@ let
       echo "users:!::" >> $out/etc/gshadow
 
       mkdir /tmp && chmod 1777 /tmp
+      groupadd -g 100 -r users && useradd -u 1001 --no-log-init -g users -m user
       mkdir -p /home/user/data
       mkdir -p /home/user/.emacs.d/
-      groupadd -g 100 -r users && useradd -u 1001 --no-log-init -g users -m user
       chown -R user:users /home/user
 
       echo "tcp	6	TCP\nudp 17      UDP" >> /etc/protocol
