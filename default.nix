@@ -9,6 +9,7 @@ let
     overlays = [
       (_: _: { inherit sources; })
       (import ./overlays/aa_emacs.nix)
+      (import ./overlays/bb_haskell.nix)
     ];
   };
 

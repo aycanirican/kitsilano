@@ -3,7 +3,8 @@
 
 { pkgs }:
 
-let lib = pkgs.haskell.lib;
+let 
+  lib = pkgs.haskell.lib;
 in
 
 hp: with hp; [
@@ -27,20 +28,20 @@ hp: with hp; [
   semigroupoids base16-bytestring aeson-pretty MonadRandom
   amazonka-test contravariant linear ansi-wl-pprint Glob
   transformers-compat cryptohash haskeline mwc-random errors
-  file-embed safe-exceptions OpenGL extra utility-ht regex-posix wreq
+  file-embed safe-exceptions extra utility-ht regex-posix wreq
   servant-server regex-compat monad-loops blaze-markup colour xml
   comonad system-filepath regex-tdfa hxt tagsoup fgl unliftio-core
-  strict persistent hmatrix smallcheck clock http-media websockets
-  lens-aeson JuicyPixels yesod-core uniplate constraints cairo mmorph
+  strict persistent hmatrix smallcheck clock websockets
+  lens-aeson JuicyPixels yesod-core uniplate constraints mmorph
   http-api-data tasty-golden glib ghc-paths foldl xml-conduit
   tasty-smallcheck servant-client resource-pool protolude pretty-show
   haskell-src-meta unliftio singletons postgresql-simple
   string-conversions snap-core cassava vector-space io-streams
   base-unicode-symbols shakespeare base-prelude void unix-compat
   prettyprinter tasty-th tasty-hspec pandoc hspec-expectations
-  fast-logger hlint diagrams-lib scotty integer-gmp
+  fast-logger hlint scotty integer-gmp
   extensible-exceptions cabal-doctest hspec-core json configurator
-  streaming GLUT SHA HDBC bindings-DSL
-  
+  streaming SHA HDBC curl zlib cabal-install
+
 ] ++ [ ad 
      ]
