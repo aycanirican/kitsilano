@@ -1,11 +1,7 @@
 { pkgs
 , dockerImages
 , constants
-<<<<<<< HEAD
-, compiler ? "ghc8101"
-=======
 , compiler ? "ghc883"
->>>>>>> 09eade0 (add lsp support for haskell and general cleanup)
 , haskellPackages ? import ./conf/haskellPackages.nix { inherit pkgs; }
 }:
 
