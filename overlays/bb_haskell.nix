@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 se: su:
 {
   haskell = su.haskell // {
@@ -18,4 +19,15 @@ se: su:
       };
     };
   };
+=======
+self: super:
+
+{
+  haskellPackages = super.haskellPackages.extend (hself: hsuper: {
+      http-media = self.haskell.lib.doJailbreak hsuper.http-media;
+      #HsYAML = hself.haskell.lib.doJailbreak hsuper.HsYAML;
+      #contravariant-extras = hself.callHackage "contravariant-extras" "0.3.5.1" {};
+    }
+  );
+>>>>>>> 09eade0 (add lsp support for haskell and general cleanup)
 }

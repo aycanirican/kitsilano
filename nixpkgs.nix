@@ -1,5 +1,5 @@
 {
-  name = "nixpkgs-19.09";
-  url = https://github.com/nixos/nixpkgs-channels/archive/b047b7315d8c9bee05e3b2d7daf0a357099180fa.tar.gz;
-  sha256 = "1m8v9wrmi5kmbjl247850drn87nblhsq8kxydj2h6qvy6hy90z6k";
+  name = "nixos-20.03";
+  url = https://github.com/nixos/nixpkgs-channels/archive/b2935fbeceaea0b64df4401545d7c8ea29102120.tar.gz;
+  sha256 = "1z1631v7q2c8mavy7xnvfx0wz34zd49jqmjg66nk0qgsi605m3qp";
 }

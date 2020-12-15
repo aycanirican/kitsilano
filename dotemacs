@@ -1,9 +1,27 @@
+;; -*- mode: Lisp -*-
+
 (let ((gc-cons-threshold 1000000)) ; delay gc
+  (setq inhibit-startup-message t
+	inhibit-startup-echo-area-message (user-login-name))
+  
+  (setq initial-major-mode 'fundamental-mode
+	initial-scratch-message nil)
   
   (package-initialize)
+
+  (tool-bar-mode -1)   ;; hide toolbar (waste of space)
+  (menu-bar-mode -1)   ;; hide menubar (come on, we use keyboard)
+  (scroll-bar-mode -1) ;; hide scrollbar (old ux)
+  (blink-cursor-mode 0)
+
+  ;; Set up fonts early.
+  (set-face-attribute 'default        nil :height 140 :family "Menlo")
   
-  (tool-bar-mode -1) ;; hide toolbar
-  (menu-bar-mode -1) ;; hide menubar
+  (when window-system
+    (set-frame-position (selected-frame) 250 0)
+    (set-frame-size (selected-frame) 130 80))
+    
+  (load-theme 'tango-dark)
   
   ;; We list all the parameters externally given us by the build system
   ;; here. 
@@ -13,12 +31,17 @@
   (setq dhall-path "@DHALL_PATH@") ; needed by emacs dhall-mode
   (setq mu4e-path (concat mu-path "/share/emacs/site-lisp/mu4e"))
   (setq ripgrep-path "@RG_PATH@")  ; used by counsel-rg-base-command
+  (setq ispell-path "@ISPELL_PATH@")
+  (setq sbcl-path "@SBCL_PATH@")   ; for slime
+  (setq stack-path "@STACK_PATH@") ; stack
+  (setq hls-path "@HLS_PATH@")     ; haskell-language-server
 
   ;; ediff
-  (setq ediff-diff-program  (concat diff-path  "/bin/diff")
-	ediff-diff3-program (concat diff-path  "/bin/diff3")
-	ediff-patch-program (concat patch-path "/bin/patch")
-	dhall-command       (concat dhall-path "/bin/dhall"))
+  (setq ediff-diff-program    (concat diff-path  "/bin/diff")
+	ediff-diff3-program   (concat diff-path  "/bin/diff3")
+	ediff-patch-program   (concat patch-path "/bin/patch")
+	dhall-command         (concat dhall-path "/bin/dhall")
+	inferior-lisp-program (concat sbcl-path "/bin/sbcl"))
 
   ;; nix mode is essential for our community
   (use-package nix-mode
@@ -54,11 +77,7 @@
 
   ;; AUTOCOMPLETE
   (progn
-    (require 'ivy)
-    (require 'ivy-hydra)
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
+    (ido-mode 1)
     (global-set-key "\C-s" 'swiper)
     (global-set-key (kbd "C-c k") 'counsel-rg)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -125,9 +144,11 @@ mime alternatives."
       (setq trash-directory "~/.Trash")
       (setq ns-pop-up-frames nil)
       (setq ns-use-native-fullscreen nil)
-      (setq mac-option-modifier 'meta) ;; Bind meta to ALT
-      (setq mac-command-modifier 'super) ;; Bind apple/command to super if you want
-      (setq mac-function-modifier 'hyper) ;; Bind function key to hyper if you want
+      (setq mac-option-modifier 'super) ;; Bind super to OPTION KEY
+      (setq mac-right-option-modifier 'nil)
+      (setq mac-command-modifier 'meta) ;; Bind meta to COMMAND KEY
+      (setq mac-right-command-modifier 'super) ;; Bind apple/command to super if you want
+      ; (setq mac-function-modifier 'hyper) ;; Bind function key to hyper if you want
       ))
   
   ;; Include user supplied customizations
@@ -142,16 +163,101 @@ mime alternatives."
 
   ;; always show matching parens
   (show-paren-mode 1)
-
+  (require 'rainbow-delimiters)
+  
   ;; hledger
   (require 'hledger-mode)
+  (require 'hledger-input)
   (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+  (setq hledger-jfile (expand-file-name "~/.hledger.journal"))
+  (setq hledger-show-expanded-report nil)
+  (add-hook 'hledger-mode-hook
+            (lambda ()
+              (add-to-list 'company-backends 'hledger-company)))
+  
+  (setq hledger-input-buffer-height 20)
+  (add-hook 'hledger-input-post-commit-hook #'hledger-show-new-balances)
+  (add-hook 'hledger-input-mode-hook #'auto-fill-mode)
+  (add-hook 'hledger-input-mode-hook
+            (lambda ()
+              (make-local-variable 'company-idle-delay)
+              (setq-local company-idle-delay 0.1)))
+
   ;; Personal Accounting
   (global-set-key (kbd "C-c e") 'hledger-jentry)
   (global-set-key (kbd "C-c j") 'hledger-run-command)
   
   ;; company
-  (add-to-list 'company-backends 'hledger-company)
   (add-to-list 'company-backends 'company-ghc)
 
+  ;; golang speedbar support
+  (eval-after-load 'speedbar
+    '(speedbar-add-supported-extension ".go"))
+  (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
+
+  ;; autoinsert
+  (require 'autoinsert)
+  (auto-insert-mode)
+
+  (setq auto-insert-directory (expand-file-name "~/.emacs.d/templates/"))
+
+  ;; yasnippet
+  (require 'yasnippet)
+  (yas-global-mode 1)
+
+  ;; Setup LSP
+  (require 'lsp-mode)
+  
+  ;; haskell
+  (require 'lsp)
+  (require 'lsp-haskell)
+  (add-hook 'haskell-mode-hook #'lsp)
+  (setq lsp-haskell-process-path-hie (concat hls-path  "/bin/haskell-language-server-wrapper")
+        lsp-haskell-process-args-hie (list "-d" "-l" (make-temp-file "hie." nil ".log"))
+	lsp-lens-mode t)
+
+  (require 'haskell-mode)
+  (require 'haskell-font-lock)
+  (require 'haskell-interactive-mode)
+  (require 'haskell-process)
+  (require 'yasnippet)
+  
+  ;; (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  ;; (add-hook 'haskell-mode-hook 'haskell-auto-insert-module-template)
+  ;; (add-hook 'haskell-mode-hook 'flyspell-prog-mode)
+  ;; (define-key haskell-mode-map (kbd "<f8>") 'haskell-navigate-imports)
+  
+  (require 'ido)
+  (require 'ido-better-flex)
+  (ido-better-flex/enable)
+  
+  (setq haskell-process-log t
+        haskell-process-auto-import-loaded-modules t
+        haskell-process-suggest-remove-import-lines t
+        haskell-stylish-on-save t
+        haskell-tags-on-save t
+	haskell-process-path-stack (concat stack-path "/bin/stack"))
+  
+  (speedbar-add-supported-extension ".hs")
+  
+  ;; iterm2 mouse support
+  (unless window-system
+    (require 'mouse)
+    (xterm-mouse-mode t)
+    (defun track-mouse (e))
+    (setq mouse-sel-mode t))
+
+  ;; direnv mode
+  (require 'direnv)
+  (direnv-mode)
+
+  ;; jump to window
+  (require 'ace-window)
+  (global-set-key (kbd "M-o") 'ace-window)
+
+  ;; show parens
+  (show-paren-mode 1)
+
+  ;; enable flycheck everywhere
+  ;(global-flycheck-mode t)
 )

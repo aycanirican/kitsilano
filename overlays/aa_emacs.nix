@@ -1,10 +1,14 @@
 self: pkgs:
 with pkgs;
 
+let
+  myEmacs = pkgs.emacsMacport;
+  emacsWithPackages = (pkgs.emacsPackagesGen myEmacs).emacsWithPackages;
+in
 {
   emacs26Env = epkgs: buildEnv {
     name = "emacs26Env";
-    paths = [ (emacsPackagesNg.emacsWithPackages epkgs) ];
+    paths = [ (emacsWithPackages epkgs) ];
   };
 
   gnupg = gnupg.overrideAttrs (attrs: {

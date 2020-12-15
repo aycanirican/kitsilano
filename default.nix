@@ -23,7 +23,8 @@ in
   ihaskell = import ./ihaskellImpl.nix { inherit pkgs dockerImages constants; };
   haskell  = import ./haskellImpl.nix  { inherit pkgs dockerImages constants; };
   emacs    = import ./emacsImpl.nix    { inherit pkgs dockerImages constants; };
+  acme     = import ./acme.nix         { inherit pkgs dockerImages constants; };
   selenium = import ./seleniumImpl.nix { inherit pkgs dockerImages constants; };
-  # nixops   = import ./nixopsImpl.nix   { inherit pkgs dockerImages constants; };}
+  # nixops = import ./nixopsImpl.nix   { inherit pkgs dockerImages constants; };
   qcompile = import ./qcompileImpl.nix { inherit pkgs dockerImages constants; };
 }

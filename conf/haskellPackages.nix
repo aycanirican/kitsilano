@@ -3,12 +3,11 @@
 
 { pkgs }:
 
-let 
+let
   lib = pkgs.haskell.lib;
 in
 
 hp: with hp; [
-  
   base bytestring containers text mtl transformers directory
   QuickCheck time filepath aeson hspec vector unordered-containers
   template-haskell process tasty deepseq lens random array HUnit
@@ -26,13 +25,13 @@ hp: with hp; [
   bifunctors amazonka-core MissingH profunctors free monad-logger gtk
   memory dlist microlens megaparsec hslogger wai-extra base-compat
   semigroupoids base16-bytestring aeson-pretty MonadRandom
-  amazonka-test contravariant linear ansi-wl-pprint Glob
+  contravariant linear ansi-wl-pprint Glob
   transformers-compat cryptohash haskeline mwc-random errors
   file-embed safe-exceptions extra utility-ht regex-posix wreq
   servant-server regex-compat monad-loops blaze-markup colour xml
   comonad system-filepath regex-tdfa hxt tagsoup fgl unliftio-core
   strict persistent hmatrix smallcheck clock websockets
-  lens-aeson JuicyPixels yesod-core uniplate constraints mmorph
+  lens-aeson JuicyPixels yesod-core uniplate constraints cairo mmorph
   http-api-data tasty-golden glib ghc-paths foldl xml-conduit
   tasty-smallcheck servant-client resource-pool protolude pretty-show
   haskell-src-meta unliftio singletons postgresql-simple
@@ -41,7 +40,7 @@ hp: with hp; [
   prettyprinter tasty-th tasty-hspec pandoc hspec-expectations
   fast-logger hlint scotty integer-gmp
   extensible-exceptions cabal-doctest hspec-core json configurator
-  streaming SHA HDBC curl zlib cabal-install
-
+  streaming GLUT SHA HDBC bindings-DSL zlib cabal-install
+  (pkgs.haskell.lib.doJailbreak http-media)
 ] ++ [ ad 
      ]

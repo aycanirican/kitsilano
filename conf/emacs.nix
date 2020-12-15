@@ -6,9 +6,12 @@ pkgs: epkgs: with epkgs;
   auto-yasnippet
   avy
   avy-zap
+  company-lsp
+  company-ghc
   counsel
   counsel-projectile
   dante
+  dap-mode
   dhall-mode
   diminish
   direnv
@@ -18,18 +21,24 @@ pkgs: epkgs: with epkgs;
   exec-path-from-shell
   feature-mode
   flycheck
-  flycheck-haskell
+  ghc
+  intero
   git-timemachine
+  go-guru
   go-autocomplete
   go-mode
   go-rename
   haskell-mode
   hi2
-  hindent
+  #hindent
   hledger-mode
   htmlize
   ivy
-  ivy-hydra
+  lsp-mode
+  lsp-ui
+  lsp-treemacs
+  lsp-ivy
+  lsp-haskell
   magit
   markdown-mode
   mmm-mode
@@ -37,30 +46,44 @@ pkgs: epkgs: with epkgs;
   nix-mode
   org
   org-mime
+  paredit
   pdf-tools
   powerline
   projectile
+  rainbow-delimiters
   request
+  restclient
   rjsx-mode
   sass-mode
+  slime
   swiper
+  structured-haskell-mode
   terraform-mode
+  typescript-mode
+  tide
   undo-tree
   use-package
   web-mode
+  which-key
   wgrep
   xterm-color
   yaml-mode
   yasnippet
+  yasnippet-snippets
 ] ++ (with pkgs; [ 
   curl.dev
   diffutils 
   direnv 
-  findutils 
+  findutils
+  haskellPackages.hlint
+  haskellPackages.ormolu
   git
   gnupg 
   isync
   libpcap
+  ispell
+  haskellPackages.hasktags
+  haskellPackages.stylish-haskell
   mu
   ripgrep
   silver-searcher 

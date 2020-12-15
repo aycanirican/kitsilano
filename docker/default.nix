@@ -81,4 +81,5 @@ in {
   haskell   = { entrypoint, paths }: commonImage "haskell"  entrypoint paths;
   emacs     = { entrypoint, paths }: commonImage "emacs"    entrypoint paths;
   selenium  = { entrypoint, paths }: commonImage "selenium" entrypoint paths;
+  acme = { entrypoint, paths }: commonImage "acme" entrypoint paths;
 }
