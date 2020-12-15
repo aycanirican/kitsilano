@@ -40,19 +40,11 @@
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "NixOS",
-<<<<<<< HEAD
-        "repo": "nixpkgs-channels",
-        "rev": "2cd2e7267e5b9a960c2997756cb30e86f0958a6b",
-        "sha256": "0ir3rk776wldyjz6l6y5c5fs8lqk95gsik6w45wxgk6zdpsvhrn5",
-        "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/2cd2e7267e5b9a960c2997756cb30e86f0958a6b.tar.gz",
-=======
         "repo": "nixpkgs",
         "rev": "8006772a054ce57ca18c5955dcd6ec9a62577473",
         "sha256": "0z4in7lfalbn132hdl15kp7mr3syw1zi6x6yzgmn33m97v35f0gm",
         "type": "tarball",
         "url": "https://github.com/NixOS/nixpkgs/archive/8006772a054ce57ca18c5955dcd6ec9a62577473.tar.gz",
->>>>>>> 09eade0 (add lsp support for haskell and general cleanup)
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
