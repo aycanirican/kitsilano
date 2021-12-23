@@ -36,6 +36,11 @@
   (setq stack-path "@STACK_PATH@") ; stack
   (setq hls-path "@HLS_PATH@")     ; haskell-language-server
 
+  ;; Common-Lisp
+  (add-to-list 'load-path "@SLIME_PATH@")
+  (require 'slime-autoloads)
+  (setq inferior-lisp-program (concat sbcl-path "/bin/sbcl"))
+
   ;; ediff
   (setq ediff-diff-program    (concat diff-path  "/bin/diff")
 	ediff-diff3-program   (concat diff-path  "/bin/diff3")
@@ -165,28 +170,6 @@ mime alternatives."
   (show-paren-mode 1)
   (require 'rainbow-delimiters)
   
-  ;; hledger
-  (require 'hledger-mode)
-  (require 'hledger-input)
-  (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
-  (setq hledger-jfile (expand-file-name "~/.hledger.journal"))
-  (setq hledger-show-expanded-report nil)
-  (add-hook 'hledger-mode-hook
-            (lambda ()
-              (add-to-list 'company-backends 'hledger-company)))
-  
-  (setq hledger-input-buffer-height 20)
-  (add-hook 'hledger-input-post-commit-hook #'hledger-show-new-balances)
-  (add-hook 'hledger-input-mode-hook #'auto-fill-mode)
-  (add-hook 'hledger-input-mode-hook
-            (lambda ()
-              (make-local-variable 'company-idle-delay)
-              (setq-local company-idle-delay 0.1)))
-
-  ;; Personal Accounting
-  (global-set-key (kbd "C-c e") 'hledger-jentry)
-  (global-set-key (kbd "C-c j") 'hledger-run-command)
-  
   ;; company
   (add-to-list 'company-backends 'company-ghc)
 
@@ -258,6 +241,9 @@ mime alternatives."
   ;; show parens
   (show-paren-mode 1)
 
-  ;; enable flycheck everywhere
-  ;(global-flycheck-mode t)
+  ;;;; enable flycheck everywhere
+  ;;(global-flycheck-mode t)
+
+  ;; 2 space indent for typescript
+  (setq-default typescript-indent-level 2)
 )

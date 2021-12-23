@@ -11,7 +11,7 @@ let
     contents = [ bash glibcLocales cacert coreutils curl git ];
   };
   
-  myEmacs = pkgs.emacs26Env ((import ../conf/emacs.nix) pkgs);
+  myEmacs = pkgs.emacs27Env ((import ../conf/emacs.nix) pkgs);
   
   commonImage = name: entrypoint: paths: dockerTools.buildImage {
     inherit name;
@@ -40,7 +40,7 @@ let
       echo "hosts: files dns myhostname mymachines" > /etc/nsswitch.conf
     '';
     config = {
-      Cmd = [ "${gosu.bin}/bin/gosu" "user" "/bin/sh" "-c" "${entrypoint}" ];
+      Cmd = [ "${gosu}/bin/gosu" "user" "/bin/sh" "-c" "${entrypoint}" ];
       Env = [ "LANG=en_US.UTF-8"
               "LOCALE_ARCHIVE=${glibcLocales}/lib/locale/locale-archive"
               "PATH=${paths}:$PATH"

@@ -9,7 +9,7 @@ let
     overlays = [
       (_: _: { inherit sources; })
       (import ./overlays/aa_emacs.nix)
-      (import ./overlays/bb_haskell.nix)
+      # (import ./overlays/bb_haskell.nix)
     ];
   };
 
@@ -17,14 +17,15 @@ let
   
   constants    = { dockerAccount = "triloxy"; };
 
+  ghc = "ghc921";
+
 in
 
 { 
-  ihaskell = import ./ihaskellImpl.nix { inherit pkgs dockerImages constants; };
-  haskell  = import ./haskellImpl.nix  { inherit pkgs dockerImages constants; };
+  ihaskell = import ./ihaskellImpl.nix { inherit pkgs dockerImages constants; compiler = ghc; };
+  haskell  = import ./haskellImpl.nix  { inherit pkgs dockerImages constants; compiler = ghc; };
   emacs    = import ./emacsImpl.nix    { inherit pkgs dockerImages constants; };
   acme     = import ./acme.nix         { inherit pkgs dockerImages constants; };
   selenium = import ./seleniumImpl.nix { inherit pkgs dockerImages constants; };
   # nixops = import ./nixopsImpl.nix   { inherit pkgs dockerImages constants; };
-  qcompile = import ./qcompileImpl.nix { inherit pkgs dockerImages constants; };
 }

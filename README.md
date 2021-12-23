@@ -8,7 +8,7 @@ as simple as possible.
 
   - Latest Stable GHC compiler
 
-  - Emacs 26.3 (has lots of tools already configured, use `$HOME/.kits.el`
+  - Emacs 27.2 (has lots of tools already configured, use `$HOME/.kits.el`
     to override default configuration)
 	
   - iHaskell jupyter notebook (along with a few ihaskell packages like

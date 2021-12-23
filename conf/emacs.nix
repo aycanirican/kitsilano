@@ -2,12 +2,9 @@ pkgs: epkgs: with epkgs;
 [
   ace-jump-mode
   ace-window
-  auctex
   auto-yasnippet
   avy
   avy-zap
-  company-lsp
-  company-ghc
   counsel
   counsel-projectile
   dante
@@ -21,8 +18,6 @@ pkgs: epkgs: with epkgs;
   exec-path-from-shell
   feature-mode
   flycheck
-  ghc
-  intero
   git-timemachine
   go-guru
   go-autocomplete
@@ -30,10 +25,10 @@ pkgs: epkgs: with epkgs;
   go-rename
   haskell-mode
   hi2
-  #hindent
-  hledger-mode
+  hindent
   htmlize
   ivy
+  js2-mode
   lsp-mode
   lsp-ui
   lsp-treemacs
@@ -44,7 +39,6 @@ pkgs: epkgs: with epkgs;
   mmm-mode
   multiple-cursors
   nix-mode
-  org
   org-mime
   paredit
   pdf-tools

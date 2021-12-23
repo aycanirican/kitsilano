@@ -1,6 +1,7 @@
 { pkgs
 , dockerImages 
 , constants
+, compiler ? "ghc921"
 , haskellPackages ? import ./conf/haskellPackages.nix { inherit pkgs; }
 }:
 
@@ -9,12 +10,12 @@ let
   
   ihaskellPackages = hp: with hp; ([
       ihaskell-aeson ihaskell-juicypixels ihaskell-blaze ihaskell-diagrams
-      ihaskell-gnuplot
+      ihaskell-gnuplot ihaskell-charts
   ] ++ (haskellPackages hp));
   
   ihaskell = import "${sources.IHaskell}/release.nix" {
+    inherit compiler;
     nixpkgs = pkgs;
-    compiler = "ghc8102";
     packages = ihaskellPackages;
   };
 

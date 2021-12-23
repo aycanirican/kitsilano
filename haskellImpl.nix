@@ -1,7 +1,7 @@
 { pkgs
 , dockerImages
 , constants
-, compiler ? "ghc883"
+, compiler ? "ghc921"
 , haskellPackages ? import ./conf/haskellPackages.nix { inherit pkgs; }
 }:
 
